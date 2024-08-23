@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { logInfo } from './utils/logger';
+import apiRouter from './api';
 
 const app = express();
 const cors = require('cors');
@@ -11,12 +12,13 @@ const db = require("./config/db");
 dotenv.config();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+app.use("/api", apiRouter)
 
-// Basic route
 app.get('*', (req: Request, res: Response) => {
   res.send('UNT - Trading Platform!');
 });
